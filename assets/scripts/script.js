@@ -1,6 +1,7 @@
 //Elements from the DOM
 const destinationInput = document.getElementById("destination");
-const travelDatesInput = document.getElementById("travel-dates");
+const startDateInput = document.getElementById("start-date");
+const endDateInput = document.getElementById("end-date");
 const addDestinationBtn = document.getElementById("addDestinationBtn");
 
 const taskInput = document.getElementById("taskInput");
@@ -11,17 +12,36 @@ const packingItemInput = document.getElementById("packingItemInput");
 const addPackingBtn = document.getElementById("addPackingBtn");
 const packingList = document.getElementById("packingList");
 
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const signInBtn = document.getElementById("signInBtn");
+
+signInBtn.addEventListener("click", () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    if (email && password) {
+        alert(`Welcome back, ${email}!`);
+        emailInput.value = "";
+        passwordInput.value = "";
+    } else {
+        alert("Please enter both email and password.");
+    }
+});
+
 //Add destination
 addDestinationBtn.addEventListener("click", () => {
     const destination = destinationInput.value.trim();
-    const travelDates = travelDatesInput.value.trim();
+    const startDate = startDateInput.value;
+    const endDate = endDateInput.value;
 
-    if (destination && travelDates) {
-        alert(`You are going to ${destination} from ${travelDates}!`);
+    if (destination && startDate && endDate) {
+        alert(`You are going to ${destination} from ${startDate} to ${endDate}!`);
         destinationInput.value = "";
-        travelDatesInput.value = "";
+        startDate.value = "";
+        endDate.value = "";
     } else {
-        alert("Please enter both destination and travel dates.");
+        alert("Please enter both destination and select travel dates.");
     }
 });
 

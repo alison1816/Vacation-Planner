@@ -63,12 +63,13 @@ button:hover {
 }
 
 /* To-do list and packing list */
-input[type="text"] {
-    width: 70%;
+input[type="date"] {
+    width: 100%;
     padding: 10px;
-    margin: 10px;
+    margin: 10px, 0;
     border: 1px solid #ddd;
     border-radius: 4px;
+    font-size: 1rem;
 }
 
 ul {
@@ -94,4 +95,27 @@ footer {
     margin-top: 30px;
     font-size: 0.8rem;
     color: #777;
+}
+
+/* Sign-In Section Styling */
+.sign-in {
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sign-in input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.sign-in button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
 }

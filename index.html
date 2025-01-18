@@ -9,6 +9,18 @@
     </head>
     <body>
         <div class="container">
+            <!-- Sign-In Section -->
+<section class="sign-in">
+    <h2>Sign In</h2>
+    <label for="email">Email:</label>
+    <input type="email" id="email" placeholder="Enter your email">
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Enter your password">
+
+    <button id="signInBtn">Sign In</button>
+</section>
+
             <!-- Header -->
              <header>   
                 <h1>Vacation Planner</h1>
@@ -22,7 +34,8 @@
                 <input type="text" id="destination" placeholder="Where are you going?">
 
                 <label for="travel-dates">Travel dates:</label>
-                <input type="text" id="travel-dates" placeholder="Enter your travel date (e.g., 21/05/2025 - 30/05/2025)">
+                <input type="date" id="start-date" placeholder="Select your start date">
+                <input type="date" id="end-date" placeholder="Select your end date">
 
                 <button id="addDestinationBtn">Add destination</button>
             </section>
