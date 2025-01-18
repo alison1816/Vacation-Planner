@@ -59,7 +59,7 @@ input[type="text"], input[type="date"] {
 input[type="text"]:focus, input[type="date"]:focus {
     border-color: #f9d5fe;
     outline: none;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    box-shadow: 0 0 5px #f9d5fe;
 }
 
 /* Buttons */
@@ -112,7 +112,7 @@ ul li.done {
 .task-actions button.removeBtn {
     padding: 8px 16px;
     font-size: 1.2rem;
-    background-color: #fc5ff4;
+    background-color: #fc5f79;
     color: white;
     border: none;
     border-radius: 4px;
@@ -126,7 +126,7 @@ ul li.done {
 }
 
 .task-actions button.removeBtn:hover {
-    background-color: #e455dd;
+    background-color: #d55167;
     transform: scale(1.1);
 }
 

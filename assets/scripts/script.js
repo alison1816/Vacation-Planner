@@ -77,11 +77,11 @@ addTaskBtn.addEventListener("click", () => {
     }
 });
 
-function addTaskToList(text, done = false) {
+function addTaskToList(item, done = false) {
     const taskItem = document.createElement("li");
     taskItem.classList.toggle("done", done);
     taskItem.innerHTML = `
-        <span>${text}</span>
+        <span>${item}</span>
         <div class="task-actions">
             <input type="checkbox" class="doneCheckbox" ${done ? "checked" : ""}>
             <button class="removeBtn">X</button>
@@ -119,13 +119,23 @@ addPackingBtn.addEventListener("click", () => {
     }
 });
 
-function addPackingItemToList(item) {
+function addPackingItemToList(item, done = false) {
     const packingItemElement = document.createElement("li");
+    packingItemElement.classList.toggle("done", done);
     packingItemElement.innerHTML = `
         <span>${item}</span>
-        <button class="removePackingBtn">X</button>
+        <div class="task-actions">
+        <input type="checkbox" class="doneCheckbox" ${done ? "checked" : ""}>
+            <button class="removeBtn">X</button>
+            </div>
     `;
-    packingItemElement.querySelector(".removePackingBtn").addEventListener("click", () => {
+
+    packingItemElement.querySelector(".doneCheckbox").addEventListener("change", () => {
+        packingItemElement.classList.toggle("done", packingItemElement.querySelector(".doneCheckbox").checked);
+        savePackingToLocalStorage();
+    });
+
+    packingItemElement.querySelector(".removeBtn").addEventListener("click", () => {
         packingItemElement.remove();
         savePackingToLocalStorage();
     });
