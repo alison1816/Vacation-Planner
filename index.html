@@ -1,67 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Plan your perfect vacation! Keep track of destinations, activities, and packing lists.">
-        <title>Vacation Planner</title>
-        <link rel="stylesheet" href="assets/styles/style.css">
-    </head>
-    <body>
-        <div class="container">
-            <!-- Sign-In Section -->
-<section class="sign-in">
-    <h2>Sign In</h2>
-    <label for="email">Email:</label>
-    <input type="email" id="email" placeholder="Enter your email">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Plan your perfect vacation! Keep track of destinations, activities, and packing lists.">
+    <title>SANDA Vacation Planner</title>
+    <link rel="stylesheet" href="assets/styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" placeholder="Enter your password">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>SANDA Vacation Planner</h1>
+            <p>Organise your perfect vacation!</p>
+        </header>
 
-    <button id="signInBtn">Sign In</button>
-</section>
+        <!-- Destination Info Section -->
+        <section class="destination">
+            <h2>Your Destination</h2>
+            <label for="destination">Destination:</label>
+            <input type="text" id="destination" placeholder="Where are you going?">
 
-            <!-- Header -->
-             <header>   
-                <h1>Vacation Planner</h1>
-                <p>Organise your perfect vacation!</p>
-            </header>
+            <label for="travel-dates">Travel dates:</label>
+            <input type="date" id="start-date" placeholder="Select your start date">
+            <input type="date" id="end-date" placeholder="Select your end date">
 
-            <!-- Destination info section -->
-            <section class="destination">
-                <h2>Your Destination</h2> 
-                <label for="destination">Destination:</label>
-                <input type="text" id="destination" placeholder="Where are you going?">
+            <button id="addDestinationBtn">Add destination</button>
+        </section>
 
-                <label for="travel-dates">Travel dates:</label>
-                <input type="date" id="start-date" placeholder="Select your start date">
-                <input type="date" id="end-date" placeholder="Select your end date">
-
-                <button id="addDestinationBtn">Add destination</button>
-            </section>
-
-            <!-- To-do list section -->
-             <section class="to-do-list">
-                <h2>To-Do List</h2>
+        <!-- To-Do List Section -->
+        <section class="to-do-list">
+            <h2>To-Do List</h2>
+            <div class="input-container">
                 <input type="text" id="taskInput" placeholder="Add a task (e.g., Book flights)">
                 <button id="addTaskBtn">Add task</button>
+            </div>
+            <ul id="taskList"></ul>
+            <hr>
+        </section>
 
-                <ul id="taskList"></ul>
-             </section>
-
-             <!-- Packing list section -->
-              <section class="packing-list">
-                <h2>Packing List</h2>
+        <!-- Packing List Section -->
+        <section class="packing-list">
+            <h2>Packing List</h2>
+            <div class="input-container">
                 <input type="text" id="packingItemInput" placeholder="Add packing item">
                 <button id="addPackingBtn">Add item</button>
+            </div>
+            <ul id="packingList"></ul>
+        </section>
 
-                <ul id="packingList"></ul>
-              </section>
+        <!-- Footer -->
+        <footer>
+            <button id="clearButton">Reset page</button>
+            <p>&copy; 2025 SANDA Vacation Planner</p>
+        </footer>
+    </div>
 
-              <footer>
-                <p>&copy; 2025 Vacation Planner</p>
-              </footer>
-        </div>
-        <script src="assets/scripts/script.js"></script>
-    </body>
+    <script src="assets/scripts/script.js"></script>
+</body>
 </html>

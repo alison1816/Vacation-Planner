@@ -1,4 +1,4 @@
-/*Reset and basic styling */
+/* Reset and Basic Styling */
 * {
     margin: 0;
     padding: 0;
@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: aliceblue;
     color: #333;
     display: flex;
@@ -22,17 +22,23 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Header styling */
-header {
-    text-align: center;
+    margin-top: 20px;
     margin-bottom: 20px;
 }
 
+/* Header Styling */
+header {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
 h1 {
-    font-size: 2rem;
-    color: #2c3e50;
+    font-family: 'Dancing Script', cursive;
+            font-weight: 700; /* bold style */
+            color: #333;
+            font-size: 3rem;
+            text-align: center;
 }
 
 h2 {
@@ -40,38 +46,39 @@ h2 {
     margin-top: 20px;
 }
 
-/* Destination section */
-.destination input {
+/* Input Styling */
+input[type="text"], input[type="date"] {
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 12px;
+    font-size: 1rem;
     border: 1px solid #ddd;
     border-radius: 4px;
+    margin: 10px 0;
 }
 
+input[type="text"]:focus, input[type="date"]:focus {
+    border-color: #f9d5fe;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Buttons */
 button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    background-color: #00b8d8;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    width: auto;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #008fb3;
 }
 
-/* To-do list and packing list */
-input[type="date"] {
-    width: 100%;
-    padding: 10px;
-    margin: 10px, 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
+/* List Styling */
 ul {
     list-style-type: none;
 }
@@ -83,13 +90,47 @@ ul li {
     border-radius: 4px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 ul li.done {
     text-decoration: line-through;
-    background-color: #e0ffe0;
+    background-color: #fbe0ff;
 }
 
+.task-actions {
+    display: flex;
+    align-items: center;
+}
+
+.task-actions input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+}
+
+.task-actions button.removeBtn {
+    padding: 8px 16px;
+    font-size: 1.2rem;
+    background-color: #fc5ff4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    font-weight: bold;
+}
+
+.task-actions button.removeBtn:hover {
+    background-color: #e455dd;
+    transform: scale(1.1);
+}
+
+/* Footer Styling */
 footer {
     text-align: center;
     margin-top: 30px;
@@ -97,25 +138,27 @@ footer {
     color: #777;
 }
 
-/* Sign-In Section Styling */
-.sign-in {
+/* Section Styling */
+.destination, .to-do-list, .packing-list {
     margin-bottom: 20px;
-    background-color: #f5f5f5;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.sign-in input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+.input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
-.sign-in button {
-    display: block;
-    width: 100%;
-    margin-top: 10px;
+.input-container input[type="text"] {
+    flex: 1;
+    padding: 12px;
+    margin-right: 10px;
+}
+
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #ccc;
 }
