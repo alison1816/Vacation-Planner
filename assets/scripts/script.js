@@ -19,17 +19,26 @@ addDestinationBtn.addEventListener("click", () => {
     const endDate = endDateInput.value;
 
     if (destination && startDate && endDate) {
-        const destinationSection = document.querySelector(".destination");
-        destinationSection.innerHTML = `
-            <h2>Your Destination</h2>
-            <h3>Trip to ${destination}</h3>
-            <p>From: ${new Date(startDate).toLocaleDateString()}</p>
-            <p>To: ${new Date(endDate).toLocaleDateString()}</p>
-        `;
-        saveDestinationToLocalStorage(destination, startDate, endDate);
+        updateDestinationSection(destination, startDate, endDate);
     } else {
         alert("Please enter both a destination and travel dates.");
     }
+});
+
+
+// Tab Switching Logic
+document.querySelectorAll(".tab-button").forEach(button => {
+    button.addEventListener("click", () => {
+        const tab = button.dataset.tab;
+
+        // Remove active class from all buttons and contents
+        document.querySelectorAll(".tab-button").forEach(btn => btn.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active"));
+
+        // Add active class to the clicked button and corresponding content
+        button.classList.add("active");
+        document.getElementById(tab).classList.add("active");
+    });
 });
 
 // Save and Load Data from Local Storage
@@ -43,6 +52,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function loadLocalStorageData() {
+    // Load destination data
     const savedTrip = JSON.parse(localStorage.getItem("trip"));
     if (savedTrip) {
         updateDestinationSection(savedTrip.destination, savedTrip.startDate, savedTrip.endDate);
@@ -55,9 +65,10 @@ function loadLocalStorageData() {
 
     const savedShoppingItems = JSON.parse(localStorage.getItem("shoppingItems")) || [];
     savedShoppingItems.forEach(item => {
-        addShoppingItemToList(item);
+        addShoppingItemToList(item.text, item.done);
     });
 }
+
 
 function updateDestinationSection(destination, startDate, endDate) {
     const destinationSection = document.querySelector(".destination");
@@ -67,7 +78,11 @@ function updateDestinationSection(destination, startDate, endDate) {
         <p>From: ${new Date(startDate).toLocaleDateString()}</p>
         <p>To: ${new Date(endDate).toLocaleDateString()}</p>
     `;
+
+    // Save to local storage whenever the section is updated
+    saveDestinationToLocalStorage(destination, startDate, endDate);
 }
+
 
 // Add Task
 addTaskBtn.addEventListener("click", () => {
@@ -161,13 +176,18 @@ function saveItem(button) {
     }
   }
 
-function saveTasksToLocalStorage() {
-    const tasks = [...taskList.querySelectorAll("li")].map(task => ({
+  function saveTasksToLocalStorage() {
+    const tasks = [...document.getElementById("taskList").querySelectorAll("li")].map(task => ({
         text: task.querySelector("span").textContent,
-        done: task.classList.contains("done")
+        done: false
     }));
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    const doneTasks = [...document.getElementById("taskDoneList").querySelectorAll("li")].map(task => ({
+        text: task.querySelector("span").textContent,
+        done: true
+    }));
+    localStorage.setItem("tasks", JSON.stringify([...tasks, ...doneTasks]));
 }
+
 
 addShoppingBtn.addEventListener("click", () => {
     const shoppingItem = shoppingItemInput.value.trim();
@@ -202,11 +222,99 @@ function addShoppingItemToList(item, done = false) {
 }
 
 function saveShoppingToLocalStorage() {
-    const shoppingItems = [...shoppingList.querySelectorAll("li")].map(item =>
-        item.querySelector("span").textContent
-    );
-    localStorage.setItem("shoppingItems", JSON.stringify(shoppingItems));
+    const shoppingItems = [...document.getElementById("shoppingList").querySelectorAll("li")].map(item => ({
+        text: item.querySelector("span").textContent,
+        done: false
+    }));
+    const doneShoppingItems = [...document.getElementById("shoppingDoneList").querySelectorAll("li")].map(item => ({
+        text: item.querySelector("span").textContent,
+        done: true
+    }));
+    localStorage.setItem("shoppingItems", JSON.stringify([...shoppingItems, ...doneShoppingItems]));
 }
+
+
+// Move item to or from the "Done" section
+function handleCompletion(checkbox, activeListId, doneListId) {
+    const listItem = checkbox.closest("li");
+    const targetList = checkbox.checked ? document.getElementById(doneListId) : document.getElementById(activeListId);
+    targetList.appendChild(listItem);
+
+    if (activeListId === "taskList") {
+        saveTasksToLocalStorage();
+    } else {
+        saveShoppingToLocalStorage();
+    }
+}
+
+// Add Task to List
+function addTaskToList(item, done = false) {
+    const taskItem = document.createElement("li");
+    taskItem.innerHTML = `
+        <span>${item}</span>
+        <div class="task-actions">
+            <input type="checkbox" class="doneCheckbox" ${done ? "checked" : ""}>
+            <button class="removeBtn">X</button>
+        </div>
+    `;
+
+    // Handle checkbox toggle
+    taskItem.querySelector(".doneCheckbox").addEventListener("change", (e) => {
+        handleCompletion(e.target, "taskList", "taskDoneList");
+    });
+
+    // Remove task
+    taskItem.querySelector(".removeBtn").addEventListener("click", () => {
+        if (confirm("Are you sure you want to delete this task?")) {
+            taskItem.remove();
+            saveTasksToLocalStorage();
+        }
+    });
+
+    // Append to appropriate list
+    const targetList = done ? document.getElementById("taskDoneList") : document.getElementById("taskList");
+    targetList.appendChild(taskItem);
+
+    saveTasksToLocalStorage();
+
+    // Clear the input box
+    document.getElementById("taskInput").value = "";
+}
+
+// Add Shopping Item to List
+function addShoppingItemToList(item, done = false) {
+    const shoppingItemElement = document.createElement("li");
+    shoppingItemElement.innerHTML = `
+        <span>${item}</span>
+        <div class="task-actions">
+            <input type="checkbox" class="doneCheckbox" ${done ? "checked" : ""}>
+            <button class="removeBtn">X</button>
+        </div>
+    `;
+
+    // Handle checkbox toggle
+    shoppingItemElement.querySelector(".doneCheckbox").addEventListener("change", (e) => {
+        handleCompletion(e.target, "shoppingList", "shoppingDoneList");
+    });
+
+    // Remove item
+    shoppingItemElement.querySelector(".removeBtn").addEventListener("click", () => {
+        if (confirm("Are you sure you want to delete this item?")) {
+            shoppingItemElement.remove();
+            saveShoppingToLocalStorage();
+        }
+    });
+
+    // Append to appropriate list
+    const targetList = done ? document.getElementById("shoppingDoneList") : document.getElementById("shoppingList");
+    targetList.appendChild(shoppingItemElement);
+
+    saveShoppingToLocalStorage();
+
+    // Clear the input box
+    document.getElementById("shoppingItemInput").value = "";
+}
+
 
 // Get the clear button
 const clearButton = document.getElementById("clearButton");

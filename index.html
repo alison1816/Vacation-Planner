@@ -32,31 +32,46 @@
             <button id="addDestinationBtn">Add destination</button>
         </section>
 
-        <!-- To-Do List Section -->
-        <section class="to-do-list">
-            <hr>
-            <h2>To-Do List</h2>
-            <div class="input-container">
-                <input type="text" id="taskInput" placeholder="Add a task">
-                <button id="addTaskBtn">Add task</button>
+        <section class="tab-section">
+            <!-- Tab Navigation -->
+            <div class="tabs">
+                <button class="tab-button active" data-tab="tasks">To-Do List</button>
+                <button class="tab-button" data-tab="shopping">Shopping List</button>
             </div>
-            <ul id="taskList"></ul>
-            <hr>
-        </section>
-
-        <!-- Shopping List Section -->
-        <section class="shopping-list">
-            <h2>Shopping List</h2>
-            <div class="input-container">
-                <input type="text" id="shoppingItemInput" placeholder="Add shopping item">
-                <button id="addShoppingBtn">Add item</button>
+        
+            <!-- Tab Content -->
+            <div id="tasks" class="tab-content active">
+                <h2>To-Do List</h2>
+                <div class="input-container">
+                    <input type="text" id="taskInput" placeholder="Add a task">
+                    <button id="addTaskBtn">Add task</button>
+                </div>
+                <hr>
+                <h3>In progress</h3>
+                <ul id="taskList"></ul>
+                <hr>
+                <h3>Done</h3>
+                <ul id="taskDoneList"></ul>
             </div>
-            <ul id="shoppingList"></ul>
-        </section>
+        
+            <div id="shopping" class="tab-content">
+                <h2>Shopping List</h2>
+                <div class="input-container">
+                    <input type="text" id="shoppingItemInput" placeholder="Add shopping item">
+                    <button id="addShoppingBtn">Add item</button>
+                </div>
+                <hr>
+                <h3>Still need to buy</h3>
+                <ul id="shoppingList"></ul>
+                <hr>
+                <h3>Done</h3>
+                <ul id="shoppingDoneList"></ul>
+            </div>
+        </section>  
 
         <!-- Footer -->
         <footer>
-            <button id="clearButton">Reset page</button>
+            <!-- <button id="clearButton">Reset page</button> -->
             <p>&copy; 2025 SANDA Vacation Planner</p>
         </footer>
     </div>
