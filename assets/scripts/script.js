@@ -8,9 +8,9 @@ const taskInput = document.getElementById("taskInput");
 const addTaskBtn = document.getElementById("addTaskBtn");
 const taskList = document.getElementById("taskList");
 
-const packingItemInput = document.getElementById("packingItemInput");
-const addPackingBtn = document.getElementById("addPackingBtn");
-const packingList = document.getElementById("packingList");
+const shoppingItemInput = document.getElementById("shoppingItemInput");
+const addShoppingBtn = document.getElementById("addShoppingBtn");
+const shoppingList = document.getElementById("shoppingList");
 
 // Add Destination
 addDestinationBtn.addEventListener("click", () => {
@@ -53,9 +53,9 @@ function loadLocalStorageData() {
         addTaskToList(task.text, task.done);
     });
 
-    const savedPackingItems = JSON.parse(localStorage.getItem("packingItems")) || [];
-    savedPackingItems.forEach(item => {
-        addPackingItemToList(item);
+    const savedShoppingItems = JSON.parse(localStorage.getItem("shoppingItems")) || [];
+    savedShoppingItems.forEach(item => {
+        addShoppingItemToList(item);
     });
 }
 
@@ -87,21 +87,79 @@ function addTaskToList(item, done = false) {
             <button class="removeBtn">X</button>
         </div>
     `;
-
+    
     taskItem.querySelector(".doneCheckbox").addEventListener("change", () => {
         taskItem.classList.toggle("done", taskItem.querySelector(".doneCheckbox").checked);
         saveTasksToLocalStorage();
     });
 
-    taskItem.querySelector(".removeBtn").addEventListener("click", () => {
-        taskItem.remove();
-        saveTasksToLocalStorage();
+    taskItem.querySelector(".removeBtn").addEventListener("click", (event) => {
+        removeItem(event.target);
     });
 
     taskList.appendChild(taskItem);
     taskInput.value = "";
     saveTasksToLocalStorage();
 }
+
+// Toggle checkbox completion (cross-out text)
+function toggleCompletion(checkbox) {
+    const itemText = checkbox.parentElement.querySelector("span");
+    
+    if (checkbox.checked) {
+      itemText.style.textDecoration = "line-through";
+    } else {
+      itemText.style.textDecoration = "none";
+    }
+  }
+
+// Remove item with confirmation
+function removeItem(button) {
+    const confirmation = confirm("Are you sure you want to delete this item?");
+    if (confirmation) {
+        const item = button.parentElement.parentElement; // Adjust selector to target the <li>
+        item.remove();
+        // Save to localStorage after removal
+        saveTasksToLocalStorage();
+        saveShoppingToLocalStorage();
+    }
+}
+
+  function editItem(button) {
+    const item = button.parentElement;
+    const itemText = item.querySelector("span");
+    
+    // Replace text with input field for editing
+    const newInput = document.createElement("input");
+    newInput.type = "text";
+    newInput.value = itemText.textContent;
+    itemText.replaceWith(newInput);
+  
+    // Change "Edit" button to "Save"
+    button.textContent = "Save";
+    button.onclick = function() {
+      saveItem(button);
+    };
+  }
+
+  // Save edited item
+function saveItem(button) {
+    const item = button.parentElement;
+    const newInput = item.querySelector("input[type='text']");
+    const newText = newInput.value.trim();
+  
+    if (newText) {
+      const newTextSpan = document.createElement("span");
+      newTextSpan.textContent = newText;
+      newInput.replaceWith(newTextSpan);
+  
+      // Change "Save" button back to "Edit"
+      button.textContent = "Edit";
+      button.onclick = function() {
+        editItem(button);
+      };
+    }
+  }
 
 function saveTasksToLocalStorage() {
     const tasks = [...taskList.querySelectorAll("li")].map(task => ({
@@ -111,44 +169,43 @@ function saveTasksToLocalStorage() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-// Add Packing Item
-addPackingBtn.addEventListener("click", () => {
-    const packingItem = packingItemInput.value.trim();
-    if (packingItem) {
-        addPackingItemToList(packingItem);
+addShoppingBtn.addEventListener("click", () => {
+    const shoppingItem = shoppingItemInput.value.trim();
+    if (shoppingItem) {
+        addShoppingItemToList(shoppingItem);
     }
 });
 
-function addPackingItemToList(item, done = false) {
-    const packingItemElement = document.createElement("li");
-    packingItemElement.classList.toggle("done", done);
-    packingItemElement.innerHTML = `
+function addShoppingItemToList(item, done = false) {
+    const shoppingItemElement = document.createElement("li");
+    shoppingItemElement.classList.toggle("done", done);
+    shoppingItemElement.innerHTML = `
         <span>${item}</span>
         <div class="task-actions">
-        <input type="checkbox" class="doneCheckbox" ${done ? "checked" : ""}>
+            <input type="checkbox" class="doneCheckbox" ${done ? "checked" : ""}>
             <button class="removeBtn">X</button>
-            </div>
+        </div>
     `;
 
-    packingItemElement.querySelector(".doneCheckbox").addEventListener("change", () => {
-        packingItemElement.classList.toggle("done", packingItemElement.querySelector(".doneCheckbox").checked);
-        savePackingToLocalStorage();
+    shoppingItemElement.querySelector(".doneCheckbox").addEventListener("change", () => {
+        shoppingItemElement.classList.toggle("done", shoppingItemElement.querySelector(".doneCheckbox").checked);
+        saveShoppingToLocalStorage();
     });
 
-    packingItemElement.querySelector(".removeBtn").addEventListener("click", () => {
-        packingItemElement.remove();
-        savePackingToLocalStorage();
+    shoppingItemElement.querySelector(".removeBtn").addEventListener("click", (event) => {
+        removeItem(event.target);
     });
-    packingList.appendChild(packingItemElement);
-    packingItemInput.value = "";
-    savePackingToLocalStorage();
+
+    shoppingList.appendChild(shoppingItemElement);
+    shoppingItemInput.value = "";
+    saveShoppingToLocalStorage();
 }
 
-function savePackingToLocalStorage() {
-    const packingItems = [...packingList.querySelectorAll("li")].map(item =>
+function saveShoppingToLocalStorage() {
+    const shoppingItems = [...shoppingList.querySelectorAll("li")].map(item =>
         item.querySelector("span").textContent
     );
-    localStorage.setItem("packingItems", JSON.stringify(packingItems));
+    localStorage.setItem("shoppingItems", JSON.stringify(shoppingItems));
 }
 
 // Get the clear button
@@ -161,11 +218,11 @@ clearButton.addEventListener("click", () => {
     startDateInput.value = "";
     endDateInput.value = "";
     taskInput.value = "";
-    packingItemInput.value = "";
+    shoppingItemInput.value = "";
 
-    // Clear task and packing lists
+    // Clear task and shopping lists
     taskList.innerHTML = "";
-    packingList.innerHTML = "";
+    shoppingList.innerHTML = "";
 
     // Optionally, clear localStorage if you are using it to store data
     localStorage.clear();
